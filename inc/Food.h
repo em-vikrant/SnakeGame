@@ -17,7 +17,6 @@ class Food
             position = {0.0f, 0.0f};
             rotationAngle = 0.0f;
             dimensions = {static_cast<float>(texture.width), static_cast<float>(texture.height)};
-            currDimensions = {static_cast<float>(texture.width), static_cast<float>(texture.height)};
         }
 
         ~Food()
@@ -33,12 +32,12 @@ class Food
             cellScaleFactor = (4 * pixelSize * pixelSize) / (texture.width * texture.height);
             cellScaleFactor = std::sqrt(cellScaleFactor);
 
-            position = GenerateRandomPosition(gameDimensions);
+            UpdatePos();
         }
 
-        void Draw(Color clr = WHITE)
+        void Draw()
         {
-            DrawTextureEx(texture, position, 0.0f, cellScaleFactor, clr);
+            DrawTextureEx(texture, position, 0.0f, cellScaleFactor, WHITE);
         }
 
         Rectangle GetFoodBlockPosition()
@@ -47,7 +46,7 @@ class Food
             return(foodBlock);
         }
 
-        void UpdateFoodPos()
+        void UpdatePos()
         {
             position = GenerateRandomPosition(gameDimensions);
         }
@@ -65,15 +64,13 @@ class Food
     private:
         Vector2 GenerateRandomPosition(Vector2 gamePanleLimit)
         {
-            std::srand((unsigned)time(NULL));
-            float x = rand() % static_cast<int>(gamePanleLimit.x - 2 * currDimensions.x);
-            float y = rand() % static_cast<int>(gamePanleLimit.y - 2 * currDimensions.y);
-            return Vector2{x, y};
+            float x = GetRandomValue(0, (gamePanleLimit.x / pixelSize) - 1);
+            float y = GetRandomValue(0, (gamePanleLimit.y / pixelSize) - 1);
+            return Vector2Scale((Vector2){x, y}, pixelSize);
         }
 
         Vector2 position;
         Vector2 dimensions;
-        Vector2 currDimensions;
         Vector2 gameDimensions;
         Texture2D texture;
         float rotationAngle;

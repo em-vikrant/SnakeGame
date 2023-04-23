@@ -44,6 +44,7 @@ int main(void)
     {
         gamePanel.Show();
         gamePanel.SetBackGround(WHITE);
+        gamePanel.DrawGridLines();
 
         if(gamePanel.IsGameOver() != true)
         {
@@ -56,7 +57,7 @@ int main(void)
             /* Check if food is eaten. */
             if(snake.Eaten(food.GetFoodBlockPosition()) == true)
             {
-                food.UpdateFoodPos();
+                food.UpdatePos();
             }
 
             /* Check if snake collides with it's own body. */

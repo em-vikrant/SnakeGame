@@ -45,20 +45,25 @@ class Snake
             cellScaleFactor = std::sqrt(cellScaleFactor);
         }
 
-        void Draw(Color clr = WHITE)
+        void Draw()
         {
             char text[20];
             snprintf(text, sizeof(text), "SNAKE SIZE: %d", snakeBody.size());
-            DrawText((const char *)text, 10, 10, 8, BLACK);
+            DrawText((const char *)text, 10, 10, 15, BLACK);
 
             /* Draw snake body */
             for(int idx = 0; idx < snakeBody.size(); idx++)
             {
-                DrawRectangleLines(snakeBody[idx].x, snakeBody[idx].y, texture.width * cellScaleFactor, texture.height * cellScaleFactor, DARKGREEN);
+                Color bodyClr = (idx % 2 == 0) ?  GREEN : LIME;
+                
+                uint16_t width = pixelSize * 2;
+                uint16_t height = pixelSize * 2;
+                DrawRectangle(snakeBody[idx].x, snakeBody[idx].y, width, height, bodyClr);
             }
 
             /* Add Snake face to the body rendered. */
-            DrawTextureEx(texture, (Vector2){snakeBody[0].x, snakeBody[0].y}, 0.0f, cellScaleFactor, GREEN);
+            Color clr = (stunned != true) ? GREEN : RED;
+            DrawTextureEx(texture, (Vector2){snakeBody[0].x, snakeBody[0].y}, 0.0f, cellScaleFactor, clr);
 
             if(stunned != true)
             {
@@ -114,6 +119,12 @@ class Snake
                     stunned = true;
                 }
             }
+
+            if((head.x == 0 || head.x >= gameLimits.x - 2 * pixelSize) || (head.y == 0 || head.y >= gameLimits.y - 2 * pixelSize))
+            {
+                stunned = true;
+            }
+
             return(stunned);
         }
 

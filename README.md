@@ -28,3 +28,7 @@ mingw32-make -f Makefile all
 
 Check _SnakeGame/build_ dir to find the game executable.
 
+## How to run the game
+Run the build in _SnakeGame/build/SnakeGame.exe_ by double-clicking it.  
+
+![Game Run](https://github.com/em-vikrant/SnakeGame/tree/main/images/SnakeGame.PNG)

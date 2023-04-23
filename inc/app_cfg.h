@@ -2,8 +2,8 @@
 
 
 /* Screen dimensions. */
-constexpr uint16_t defaultScreenHeight  = 600;      /*! Screen height. */
-constexpr uint16_t defaultScreenWidth   = 800;      /*! Screen Width. */
+constexpr uint16_t defaultScreenHeight  = 400;      /*! Screen height. */
+constexpr uint16_t defaultScreenWidth   = 400;      /*! Screen Width. */
 constexpr uint8_t defaultCellSizePx     = 10;       /*! Pixel Dimension. */
 
 

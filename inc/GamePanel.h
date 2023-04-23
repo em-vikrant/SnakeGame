@@ -13,22 +13,22 @@ class GamePanel
 {
     public:
         GamePanel()
-            : cellPxSize(defaultCellSizePx)
+            : pixelSize(defaultCellSizePx)
         {
-            cellInRows = defaultScreenWidth / cellPxSize;
-            cellInCols = defaultScreenHeight / cellPxSize;
+            cellInRows = defaultScreenWidth / pixelSize;
+            cellInCols = defaultScreenHeight / pixelSize;
             title = std::string("Game Window");
         }
         
         GamePanel(std::string gmTitle, uint8_t cellSizePx = defaultCellSizePx)
-            : title(gmTitle), cellPxSize(cellSizePx)
+            : title(gmTitle), pixelSize(cellSizePx)
         {
-            cellInRows = defaultScreenWidth / cellPxSize;
-            cellInCols = defaultScreenHeight / cellPxSize;
+            cellInRows = defaultScreenWidth / pixelSize;
+            cellInCols = defaultScreenHeight / pixelSize;
         }
 
         GamePanel(uint8_t cellSizePx, uint16_t scWidth, uint16_t scHeight, std::string gmTitle)
-            : cellPxSize(cellSizePx), title(gmTitle)
+            : pixelSize(cellSizePx), title(gmTitle)
         {
             SetScreenWidth(scWidth);
             SetScreenHeight(scHeight);
@@ -41,17 +41,17 @@ class GamePanel
 
         void SetScreenWidth(uint16_t scWidth)
         {
-            cellInRows = scWidth / cellPxSize;
+            cellInRows = scWidth / pixelSize;
         }
 
         void SetScreenHeight(uint16_t scHeight)
         {
-            cellInCols = scHeight / cellPxSize;
+            cellInCols = scHeight / pixelSize;
         }
 
         void Init()
         {
-            InitWindow(cellInRows * cellPxSize, cellInCols * cellPxSize, title.c_str());
+            InitWindow(cellInRows * pixelSize, cellInCols * pixelSize, title.c_str());
             isGameOver = false;
         }
 
@@ -64,9 +64,10 @@ class GamePanel
         void Clear() { EndDrawing(); }
         void SetBackGround(Color clr) { ClearBackground(clr); }
 
-        uint16_t GetScreenWidth() { return(cellInRows * cellPxSize); }
-        uint16_t GetScreenHeight() { return(cellInCols * cellPxSize); }
-        uint16_t GetPixelSize() { return(cellPxSize); }
+        uint16_t GetScreenWidth() { return(cellInRows * pixelSize); }
+        uint16_t GetScreenHeight() { return(cellInCols * pixelSize); }
+        uint16_t GetPixelSize() { return(pixelSize); }
+        uint16_t GetPixelCnt() { return(cellInCols * cellInRows); }
 
         bool CheckClosingEvent() { return(WindowShouldClose()); }
         void SetGameOver() { isGameOver = true; }
@@ -75,7 +76,7 @@ class GamePanel
         {
             if(isGameOver == true)
             {
-                DrawText("Game Over", (GetScreenWidth() - 15 * cellPxSize) / 2, (GetScreenHeight() - 5 * cellPxSize) / 2, 30, RED);
+                DrawText("Game Over", (GetScreenWidth() - 15 * pixelSize) / 2, (GetScreenHeight() - 5 * pixelSize) / 2, 30, RED);
             }
             return(isGameOver);
         }
@@ -103,9 +104,21 @@ class GamePanel
             return(dir);
         }
 
+        void DrawGridLines()
+        {
+            for(int r = 0; r < cellInCols; r++)
+            {
+                for(int c = 0; c < cellInRows; c++)
+                {
+                    uint8_t dim = pixelSize * 2;
+                    DrawRectangleLines(r * dim, c * dim, dim, dim, (Color){218, 218, 218, 255});
+                }
+            }
+        }
+
     private:
         bool isGameOver;
-        uint16_t cellPxSize;
+        uint16_t pixelSize;
         uint16_t cellInRows;
         uint8_t cellInCols;
         std::string title;
