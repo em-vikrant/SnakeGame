@@ -1,5 +1,7 @@
-#pragma once
+#ifndef APP_CFG_H
+#define APP_CFG_H
 
+#include "raymath.h"
 
 /* Screen dimensions. */
 constexpr uint16_t defaultScreenHeight  = 400;      /*! Screen height. */
@@ -13,15 +15,18 @@ constexpr const char* SnakeHeadLocation = "F:/Workplace/CPP_PROJECTS/GitHub/Snak
 
 
 /* Direction data. */
-enum Direction { UP = 0, DOWN = 1, LEFT = 3, RIGHT = 4, NODIR };
-
-std::map<Direction, Vector2> dirMap{ {UP, {0, -1}}, {DOWN, {0, 1}}, {LEFT, {-1, 0}}, {RIGHT, {1, 0}} };
+enum Direction {
+    UP = 0,
+    DOWN = 1,
+    LEFT = 3,
+    RIGHT = 4,
+    NODIR
+};
 
 inline bool isPollarOpposite(Direction dir1, Direction dir2) noexcept
 {
     return(1 == abs(dir1 - dir2));
 }
-
 
 /* Timer functions. */
 inline void SetTimerSec(double& timer, double seconds) noexcept
@@ -34,4 +39,4 @@ inline bool IsTimerElapsed(double& timer) noexcept
     return(timer <= GetTime());
 }
 
-
+#endif

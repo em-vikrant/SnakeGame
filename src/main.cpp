@@ -10,9 +10,9 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "GamePanel.h"
-#include "Snake.h"
-#include "Food.h"
+#include "GamePanel.hpp"
+#include "Snake.hpp"
+#include "Food.hpp"
 
 
 int main(void)
