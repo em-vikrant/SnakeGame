@@ -5,7 +5,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "app_cfg.h"
+#include "app_cfg.hpp"
 
 
 /* Class for the Game Panel. */ 
