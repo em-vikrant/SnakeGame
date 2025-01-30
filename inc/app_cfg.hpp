@@ -10,9 +10,8 @@ constexpr uint8_t defaultCellSizePx     = 10;       /*! Pixel Dimension. */
 
 
 /* Images Locations. */
-constexpr const char* FoodLocation      = "F:/Workplace/CPP_PROJECTS/GitHub/SnakeGame/images/pokemon.png";
-constexpr const char* SnakeHeadLocation = "F:/Workplace/CPP_PROJECTS/GitHub/SnakeGame/images/snake.png";
-
+constexpr const char* FoodLocation      = ROOT_PATH"/images/pokemon.png";
+constexpr const char* SnakeHeadLocation = ROOT_PATH"/images/snake.png";
 
 /* Direction data. */
 enum Direction {

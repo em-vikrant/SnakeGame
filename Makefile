@@ -11,6 +11,8 @@ SRC_PATH := $(APP_PATH)/src
 BUILD_PATH := $(APP_PATH)/build
 TEST_PATH := $(APP_PATH)/test
 
+ROOT_PATH := $(abspath $(APP_PATH))
+
 CXX_FLAGS := -std=c++11
 
 # Target OS and raylib specific dependecies
@@ -64,10 +66,10 @@ bin: src
 
 src:
 	@echo "[INFO] Src compiling..."
-	$(CPP) $(CXX_FLAGS) -c $(SRC_PATH)/Food.cpp -o $(BUILD_PATH)/Food.o -I$(INC_PATH)
-	$(CPP) $(CXX_FLAGS) -c $(SRC_PATH)/Snake.cpp -o $(BUILD_PATH)/Snake.o -I$(INC_PATH)
-	$(CPP) $(CXX_FLAGS) -c $(SRC_PATH)/GamePanel.cpp -o $(BUILD_PATH)/GamePanel.o -I$(INC_PATH)
-	$(CPP) $(CXX_FLAGS) -c $(SRC_PATH)/main.cpp -o $(BUILD_PATH)/Main.o -I$(INC_PATH)
+	$(CPP) $(CXX_FLAGS) -DROOT_PATH=\"$(ROOT_PATH)\" -c $(SRC_PATH)/Food.cpp -o $(BUILD_PATH)/Food.o -I$(INC_PATH)
+	$(CPP) $(CXX_FLAGS) -DROOT_PATH=\"$(ROOT_PATH)\" -c $(SRC_PATH)/Snake.cpp -o $(BUILD_PATH)/Snake.o -I$(INC_PATH)
+	$(CPP) $(CXX_FLAGS) -DROOT_PATH=\"$(ROOT_PATH)\" -c $(SRC_PATH)/GamePanel.cpp -o $(BUILD_PATH)/GamePanel.o -I$(INC_PATH)
+	$(CPP) $(CXX_FLAGS) -DROOT_PATH=\"$(ROOT_PATH)\" -c $(SRC_PATH)/main.cpp -o $(BUILD_PATH)/Main.o -I$(INC_PATH)
 
 bdir:
 	@if [ $(shell $(CHECK_DIR_CMD)) = "1" ]; then \

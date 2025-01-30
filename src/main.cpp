@@ -15,8 +15,7 @@
 #include "Food.hpp"
 
 
-int main(void)
-{
+int main(void) {
     /* 1. Setting up the game panel before initializing objects & rendering. */
     GamePanel gamePanel("Snake Game");
     gamePanel.Init();
@@ -40,29 +39,24 @@ int main(void)
     snake.SetDelay(0.3);
 
     /* Game Loop. */
-    while (gamePanel.CheckClosingEvent() == false)
-    {
+    while (gamePanel.CheckClosingEvent() == false) {
         gamePanel.Show();
         gamePanel.SetBackGround(WHITE);
         gamePanel.DrawGridLines();
 
-        if(gamePanel.IsGameOver() != true)
-        {
+        if(gamePanel.IsGameOver() != true) {
             Direction dir;
-            if((dir = gamePanel.CheckKeyPressedEvent()) != NODIR)
-            { 
+            if((dir = gamePanel.CheckKeyPressedEvent()) != NODIR) { 
                 snake.ChangeDirection(dir);
             }
 
             /* Check if food is eaten. */
-            if(snake.Eaten(food.GetFoodBlockPosition()) == true)
-            {
+            if(snake.Eaten(food.GetFoodBlockPosition()) == true) {
                 food.UpdatePos();
             }
 
             /* Check if snake collides with it's own body. */
-            if(snake.BodyCollision() == true)
-            {
+            if(snake.BodyCollision() == true) {
                 gamePanel.SetGameOver();
             }
         }

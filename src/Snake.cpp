@@ -2,6 +2,8 @@
  * Brief	Snake class implementation.
  */
 
+#include <string>
+
 #include "Snake.hpp"
 
 Snake::Snake() {
@@ -32,13 +34,11 @@ void Snake::SetValidPlanePos(Vector3 gamePanelLimit) {
 }
 
 void Snake::Draw() {
-	char text[20];
-	snprintf(text, sizeof(text), "SNAKE SIZE: %ld", snakeBody.size());
-	DrawText((const char *)text, 10, 10, 15, BLACK);
+	std::string text = "SNAKE SIZE: " + std::to_string(snakeBody.size());
+	DrawText(text.data(), 10, 10, 15, DARKGRAY);
 
 	/* Draw snake body */
-	for(int idx = 0; idx < snakeBody.size(); idx++)
-	{
+	for(int idx = 0; idx < snakeBody.size(); idx++) {
 		Color bodyClr = (idx % 2 == 0) ?  GREEN : LIME;
 
 		uint16_t width = pixelSize * 2;
@@ -50,10 +50,8 @@ void Snake::Draw() {
 	Color clr = (stunned != true) ? GREEN : RED;
 	DrawTextureEx(texture, (Vector2){snakeBody[0].x, snakeBody[0].y}, 0.0f, cellScaleFactor, clr);
 
-	if(stunned != true)
-	{
-		if(IsTimerElapsed(drawDelayTimer) == true)
-		{
+	if(stunned != true) {
+		if(IsTimerElapsed(drawDelayTimer) == true) {
 			Update();
 			SetTimerSec(drawDelayTimer, drawDelay);
 		}
@@ -61,8 +59,7 @@ void Snake::Draw() {
 }
 
 void Snake::ChangeDirection(Direction dir) {
-	if(direction != dir && isPollarOpposite(direction, dir) != true)
-	{
+	if(direction != dir && isPollarOpposite(direction, dir) != true) {
 		/* Change the direction. */
 		direction = dir;
 
@@ -94,17 +91,18 @@ bool Snake::Eaten(Rectangle foodRec) {
 
 bool Snake::BodyCollision() {
 	Vector2& head = snakeBody[0];
-	for(int idx = 1; idx < snakeBody.size(); idx++)
-	{
-		if(Vector2Equals(head, snakeBody[idx]) == true)
-		{
-			stunned = true;
-		}
-	}
 
-	if((head.x == 0 || head.x >= gameLimits.x - 2 * pixelSize) || (head.y == 0 || head.y >= gameLimits.y - 2 * pixelSize))
-	{
+	/* Check if snake head collided with walls. */
+	if( ( (direction == LEFT || direction == RIGHT) && (head.x < 0 || head.x > gameLimits.x - 2 * pixelSize) ) ||
+		( (direction == UP || direction == DOWN) && (head.y < 0 || head.y > gameLimits.y - 2 * pixelSize) ) ) {
 		stunned = true;
+	}
+	else { /* Check if snake head collided with its body.*/
+		for(int idx = 1; idx < snakeBody.size(); idx++) {
+			if(Vector2Equals(head, snakeBody[idx]) == true) {
+				stunned = true;
+			}
+		}
 	}
 
 	return(stunned);
