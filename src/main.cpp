@@ -36,7 +36,7 @@ int main(void) {
             static_cast<float>(gamePanel.GetScreenHeight()),
             static_cast<float>(gamePanel.GetPixelSize())
             });
-    snake.SetDelay(0.3);
+    snake.SetDelay(0.4);
 
     /* Game Loop. */
     while (gamePanel.CheckClosingEvent() == false) {
