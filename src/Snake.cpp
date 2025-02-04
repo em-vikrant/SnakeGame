@@ -10,6 +10,7 @@ Snake::Snake() {
 	/* Initailize body positions. */
 	cellScaleFactor = 0.0f;
 	direction = RIGHT;
+	dirQueue.push_back(direction);
 	snakeBody.push_back((Vector2){0.0f, 0.0f});
 	stunned = false;
 	texture = LoadTexture(SnakeHeadLocation);
@@ -34,8 +35,17 @@ void Snake::SetValidPlanePos(Vector3 gamePanelLimit) {
 }
 
 void Snake::Draw() {
+	/* Update any change first if timer elapsed. */
+	if(stunned != true) {
+		if(IsTimerElapsed(drawDelayTimer) == true) {
+			Update();
+			SetTimerSec(drawDelayTimer, drawDelay);
+		}
+	}
+
 	std::string text = "SNAKE SIZE: " + std::to_string(snakeBody.size());
 	DrawText(text.data(), 10, 10, 15, DARKGRAY);
+	direction = dirQueue.front();
 
 	/* Draw snake body */
 	for(int idx = 0; idx < snakeBody.size(); idx++) {
@@ -49,23 +59,13 @@ void Snake::Draw() {
 	/* Add Snake face to the body rendered. */
 	Color clr = (stunned != true) ? GREEN : RED;
 	DrawTextureEx(texture, (Vector2){snakeBody[0].x, snakeBody[0].y}, 0.0f, cellScaleFactor, clr);
-
-	if(stunned != true) {
-		if(IsTimerElapsed(drawDelayTimer) == true) {
-			Update();
-			SetTimerSec(drawDelayTimer, drawDelay);
-		}
-	}
 }
 
 void Snake::ChangeDirection(Direction dir) {
-	if(direction != dir && isPollarOpposite(direction, dir) != true) {
-		/* Change the direction. */
-		direction = dir;
-
-		/* Set the timer again to avoid multiple shifts in same direction. */
-		SetTimerSec(drawDelayTimer, drawDelay);
-		Update();
+	/* Update the direciton queue based on the last direction change request. */
+	Direction& lastDir = dirQueue.back();
+	if(lastDir != dir && isPollarOpposite(lastDir, dir) != true && dirQueue.size() < 2) {
+		dirQueue.push_back(dir);
 	}
 }
 
@@ -112,5 +112,8 @@ void Snake::Update() {
 	Vector2 offset = Vector2Multiply(dirMap[direction], (Vector2){pixelSize * 2, pixelSize * 2});
 	snakeBody.push_front(Vector2Add(snakeBody[0], offset));
 	snakeBody.pop_back();
+
+	if (dirQueue.size() > 1)
+		dirQueue.pop_front();
 }
 

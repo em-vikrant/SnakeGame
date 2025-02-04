@@ -31,6 +31,7 @@ class Snake {
     private:
         Vector2 gameLimits;
         Direction direction;
+        std::deque<Direction> dirQueue;
 
         std::deque<Vector2> snakeBody;
         Texture2D texture;
